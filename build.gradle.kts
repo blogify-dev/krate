@@ -1,7 +1,6 @@
 @file:Suppress("PropertyName")
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.dokka.gradle.DokkaTask
 import java.net.URL
 
 val kolor_version:      String by project
@@ -21,7 +20,7 @@ plugins {
 
     kotlin("jvm") version "1.4.0"
 
-    id("org.jetbrains.dokka") version "1.4.0-rc"
+    id("org.jetbrains.dokka") version "1.4.0-dev-48"
 }
 
 group = "dev.31416"
@@ -33,7 +32,7 @@ repositories {
     jcenter()
     maven("https://jitpack.io")
     maven { url = uri("https://dl.bintray.com/kittinunf/maven") }
-    maven { url = uri("https://kotlin.bintray.com/ktor") }
+    maven { url = uri("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev") }
 }
 
 dependencies {
@@ -112,40 +111,34 @@ tasks {
     }
 
     dokkaHtml {
-        outputDirectory = "$buildDir/dokka"
+        outputDirectory.set(buildDir.resolve("dokka"))
 
         dokkaSourceSets {
             configureEach {
-                includeNonPublic = false
+                includeNonPublic.set(false)
 
-                skipDeprecated = true
+                skipDeprecated.set(true)
 
-                skipEmptyPackages = true
+                skipEmptyPackages.set(true)
 
-                jdkVersion = 8
+                jdkVersion.set(8)
 
-                includes = listOf("docs/krate.md")
+                includes.from("docs/krate.md")
 
-                externalDocumentationLink {
-                    url = URL("https://docs.31416.dev/reflectr/")
+                perPackageOption {
+                    prefix.set("krate.annotations")
+                    suppress.set(true)
                 }
 
                 perPackageOption {
-                    prefix   = "krate.annotations"
-                    suppress = true
-                }
-
-                perPackageOption {
-                    prefix   = "krate.util"
-                    suppress = true
+                    prefix.set("krate.util")
+                    suppress.set(true)
                 }
 
                 sourceLink {
-                    path = "./"
-
-                    url = "https://github.com/blogify-dev/krate/blob/master/"
-
-                    lineSuffix = "#L"
+                    localDirectory.set(projectDir)
+                    remoteUrl.set(URL("https://github.com/blogify-dev/krate/blob/master/"))
+                    remoteLineSuffix.set("#L")
                 }
             }
         }
