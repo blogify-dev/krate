@@ -2,6 +2,7 @@
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URL
+import java.io.File
 
 val kolor_version:      String by project
 val result_version:     String by project
@@ -20,7 +21,7 @@ plugins {
 
     kotlin("jvm") version "1.4.0"
 
-    id("org.jetbrains.dokka") version "1.4.0-dev-48"
+    id("org.jetbrains.dokka") version "1.4.10-dev-52"
 }
 
 group = "dev.31416"
@@ -111,7 +112,7 @@ tasks {
     }
 
     dokkaHtml {
-        outputDirectory.set(buildDir.resolve("dokka"))
+        outputDirectory.set(File("docs/dokka"))
 
         dokkaSourceSets {
             configureEach {

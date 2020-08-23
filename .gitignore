@@ -1,5 +1,4 @@
 .gradle
 .idea
-docs/_site
-docs/krate
+docs/dokka
 build/
